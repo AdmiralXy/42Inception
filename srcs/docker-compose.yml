@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  mariadb:
+    container_name: mariadb
+    build: requirements/mariadb
+    hostname: localhost
+    volumes:
+      - database:/var/lib/mysql
+    environment:
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+    networks:
+      - app-network
+    restart: always
+
+volumes:
+  database:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /data/database
+networks:
+  app-network:
+    driver: bridge
