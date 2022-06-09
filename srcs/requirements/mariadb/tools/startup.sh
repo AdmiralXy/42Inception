@@ -9,7 +9,7 @@ if [ ! -e $CONTAINER_FIRST_STARTUP ]; then
   sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mysql/mariadb.conf.d/50-server.cnf
 fi
 
-if ! [ -d $TABLE_PATH ]; then
+if [ ! -d $TABLE_PATH ]; then
   echo "-- [42Inception] Creating database & users... --"
   service mysql start
   mysql -u root -e "CREATE DATABASE IF NOT EXISTS $DB_NAME DEFAULT CHARACTER SET utf8;"
@@ -19,4 +19,5 @@ if ! [ -d $TABLE_PATH ]; then
   mysqladmin -u root password $DB_ROOT_PASSWORD
   service mysql stop
 fi
+
 /usr/bin/mysqld_safe
