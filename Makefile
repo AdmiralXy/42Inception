@@ -28,4 +28,3 @@ fclean: clean
 	docker system prune -a
 
 re: clean all
-	echo re
