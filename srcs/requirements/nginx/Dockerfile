@@ -3,7 +3,6 @@ FROM debian:buster
 RUN apt-get update
 RUN apt-get -y install nginx wget
 
-WORKDIR /tmp/nginx/
 COPY tools .
 
 RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
