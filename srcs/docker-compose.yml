@@ -1,6 +1,42 @@
 version: '3.8'
 
 services:
+  wordpress:
+    container_name: wordpress
+    build: requirements/wordpress
+    hostname: localhost
+    volumes:
+      - wordpress:/var/www/wordpress
+    environment:
+      TITLE: ${TITLE}
+      DOMAIN_NAME: ${DOMAIN_NAME}
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      WORDPRESS_USERNAME: ${WORDPRESS_USERNAME}
+      WORDPRESS_USER_EMAIL: ${WORDPRESS_USER_EMAIL}
+      WORDPRESS_PASSWORD: ${WORDPRESS_PASSWORD}
+      WORDPRESS_ADMIN_USERNAME: ${WORDPRESS_ADMIN_USERNAME}
+      WORDPRESS_ADMIN_EMAIL: ${WORDPRESS_ADMIN_EMAIL}
+      WORDPRESS_ADMIN_PASSWORD: ${WORDPRESS_ADMIN_PASSWORD}
+    networks:
+      - app-network
+    depends_on:
+      - mariadb
+    restart: always
+  nginx:
+    container_name: nginx
+    build: requirements/nginx
+    hostname: localhost
+    volumes:
+      - wordpress:/var/www/wordpress
+    networks:
+      - app-network
+    ports:
+      - "443:443"
+    depends_on:
+      - wordpress
+    restart: always
   mariadb:
     container_name: mariadb
     build: requirements/mariadb
@@ -12,13 +48,19 @@ services:
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
       DB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
-    ports:
-        - "3306:3306"
     networks:
       - app-network
+    ports:
+      - "3306:3306"
     restart: always
 
 volumes:
+  wordpress:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /data/wordpress
   database:
     driver: local
     driver_opts:
