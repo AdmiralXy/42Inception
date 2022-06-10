@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if [ ! -f "/var/www/wordpress/wp-config.php" ]; then
+if ! [ -f "/var/www/wordpress/wp-config.php" ]; then
     echo "-- [42Inception] Wordpress not found, installing... --"
     mkdir -p /var/www/wordpress/
     cd /var/www/wordpress/
