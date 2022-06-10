@@ -3,7 +3,7 @@
 TABLE_PATH="/var/lib/mysql/$DB_NAME"
 
 CONTAINER_FIRST_STARTUP="CONTAINER_FIRST_STARTUP"
-if [ ! -e $CONTAINER_FIRST_STARTUP ]; then
+if [ ! -f $CONTAINER_FIRST_STARTUP ]; then
   echo "-- [42Inception] First startup configuring... --"
   touch $CONTAINER_FIRST_STARTUP
   sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mysql/mariadb.conf.d/50-server.cnf
