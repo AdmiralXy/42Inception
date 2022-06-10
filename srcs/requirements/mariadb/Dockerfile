@@ -5,6 +5,8 @@ RUN apt-get install -y mariadb-server
 
 COPY ./tools/startup.sh .
 
+RUN sed -i -e 's/\r$//' startup.sh
+
 HEALTHCHECK --start-period=5m \
   CMD mariadb -u root -p${DB_ROOT_PASSWORD} -e 'SELECT @@datadir;' || exit 1
 
